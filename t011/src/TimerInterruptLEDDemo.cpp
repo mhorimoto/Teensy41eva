@@ -13,6 +13,8 @@
   This important feature is absolutely necessary for mission-critical tasks.
 *****************************************************************************************************************************/
 
+#include <Wire.h> 
+#include <LiquidCrystal_I2C.h>
 
 #if !( defined(CORE_TEENSY) || defined(TEENSYDUINO) )
   #error This code is designed to run on Teensy platform! Please check your Tools->Board setting.
@@ -52,6 +54,9 @@ Teensy_ISR_Timer ISR_Timer;
 #define TIMER_INTERVAL_1_5S           1500L
 #define TIMER_INTERVAL_2S             2000L
 #define TIMER_INTERVAL_3S             3000L
+
+extern void lcd_setup(void);
+extern LiquidCrystal_I2C lcd(int,int,int);
 
 void TimerHandler()
 {
@@ -123,6 +128,7 @@ void setup() {
   ISR_Timer.setInterval(TIMER_INTERVAL_2S,  doingSomething2);
   ISR_Timer.setInterval(TIMER_INTERVAL_3S,  doingSomething3);
   ISR_Timer.setInterval(TIMER_INTERVAL_0_01S,cyclic);
+  lcd_setup();
 }
 
 
