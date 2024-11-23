@@ -13,13 +13,14 @@
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
 #include "Teensy_ISR_Timer.h"
 
-#define HW_TIMER_INTERVAL_MS      1L
-#define TIMER_INTERVAL_0_01S          1L
-#define TIMER_INTERVAL_0_5S           500L
-#define TIMER_INTERVAL_1S             1000L
-#define TIMER_INTERVAL_1_5S           1500L
-#define TIMER_INTERVAL_2S             2000L
-#define TIMER_INTERVAL_3S             3000L
+#define HW_TIMER_INTERVAL_MS        1L
+#define TIMER_INTERVAL_0_01S        1L
+#define TIMER_INTERVAL_0_1S       100L
+#define TIMER_INTERVAL_0_5S       500L
+#define TIMER_INTERVAL_1S        1000L
+#define TIMER_INTERVAL_1_5S      1500L
+#define TIMER_INTERVAL_2S        2000L
+#define TIMER_INTERVAL_3S        3000L
 
 #define SW1 14
 #define SW2 15
@@ -75,23 +76,25 @@ void TimerHandler()
   ISR_Timer.run();
 }
 
+void doingSomething3(void) {
+    int k=0;
+    Serial.println("3sec");
+}
+
 void cyclic() {
-    int lr,lc;
+    int lr,lc,dl,zz,k;
+    digitalWrite(LED_BUILTIN,0);
     for (lr=0;lr<4;lr++) {
+        digitalWrite((lr+ROW1),1);
         for (lc=0;lc<8;lc++) {
-            digitalWrite((lr+ROW1),led[lc][lr]);
             digitalWrite((lc+COL1),led[lc][lr]);
- //           delay(1);
-//            if (led[lc][lr]!=0) {
-                //digitalWrite((lr+ROW1),HIGH);
-                //digitalWrite((lc+COL1),HIGH);
-                //delay(10);
-                //digitalWrite((lr+ROW1),LOW);
-                //digitalWrite((lc+COL1),LOW);
-            //}
+//            digitalWrite((lc+COL1),1);
         }
+        delayMicroseconds(200);
+        k = ~k;
+        digitalWrite((lr+ROW1),0);
     }
-    
+    digitalWrite(LED_BUILTIN,1);
 }
 
 void bufprt(void) {
@@ -105,7 +108,7 @@ void bufprt(void) {
     }
 }
 
-char *ver = "K250 T012 V0.30";
+char *ver = "K250 T012 V0.80";
 
 void setup(void) {
     char tbuf[80];
@@ -173,14 +176,10 @@ void setup(void) {
     //ISR_Timer.setInterval(TIMER_INTERVAL_1S,  doingSomething1);
     //ISR_Timer.setInterval(TIMER_INTERVAL_2S,  doingSomething2);
     //ISR_Timer.setInterval(TIMER_INTERVAL_3S,  doingSomething3);
-    ISR_Timer.setInterval(TIMER_INTERVAL_0_01S,cyclic);
+    ISR_Timer.setInterval(TIMER_INTERVAL_0_01S,cyclic);  // 10mSec Interval
     lcd.print(ver);
     lcd.setCursor(0,1);
     lcd.print("000 0x0");
-    led[0][0] = 1;
-    led[1][1] = 1;
-    led[2][2] = 1;
-    led[3][3] = 1;
 }
 
 int chkcols(int r) {
