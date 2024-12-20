@@ -48,6 +48,16 @@ TimerInterruption test.
 
 I2C with TimerInterruption
 
+## t012
+
+t011を使って押し下げたマトリックススイッチに対応したLEDのみを点灯する。
+
+## t013
+
+スタティック点灯によりROW/COLのLEDテスト
+
+## t014
+
 ## How to make new project by CLI
 
 ```pio project init -b teensy41 -e teensy41 --ide vscode -d [directory name]```
