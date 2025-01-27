@@ -58,6 +58,12 @@ t011を使って押し下げたマトリックススイッチに対応したLED�
 
 ## t014
 
+t013に加えて、３ボタンによりメモリクリアやメモリ内容表示など付帯する機能の試験。
+
+## t015
+
+SNMPの試験
+
 ## How to make new project by CLI
 
 ```pio project init -b teensy41 -e teensy41 --ide vscode -d [directory name]```
