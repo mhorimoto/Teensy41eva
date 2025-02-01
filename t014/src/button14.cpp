@@ -28,7 +28,7 @@
 #define SW1 14
 #define SW2 15
 #define SW3 16
-
+#define VR  A17
 #define COL1  24
 #define COL2  25
 #define COL3  26
@@ -71,7 +71,7 @@ volatile bool t1,t1t,t2,t3,bt;
 volatile int  c,r;
 int p1=0,p2=0,p3=0;
 int lc=1 ;
-
+int a17vr,a17pvr;
 int led[8][4] = {};
 
 void TimerHandler()
@@ -115,7 +115,7 @@ void bufprt(void) {
     }
 }
 
-char *ver = "K250 T014 V0.43";
+char *ver = "K250 T014 V0.50";
 // Enter a MAC address for your controller below.
 // Newer Ethernet shields have a MAC address printed on a sticker on the shield
 byte mac[] = {
@@ -234,6 +234,7 @@ void loop(void) {
     digitalWrite(KROW2,LOW);
     digitalWrite(KROW3,LOW);
     digitalWrite(KROW4,LOW);
+    a17vr = analogRead(VR);
     switch(r) {
         case 1:
             digitalWrite(KROW1,HIGH);
@@ -305,6 +306,11 @@ void loop(void) {
         lcd.setCursor(6,1);
         lcd.print(r);
         bt = False;
+    }
+    if (a17vr!=a17pvr) {
+        lcd.setCursor(12,1);
+        lcd.print(a17vr);
+        a17pvr = a17vr;
     }
 }
 
