@@ -19,7 +19,7 @@ void setup() {
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.println("SNMP Set Example for Teensy 4.1");
+  Serial.println("SNMP Set Example for Teensy 4.1 original");
 
   // Ethernet初期化
   if (Ethernet.begin(mac) == 0) {
@@ -50,7 +50,10 @@ void sendSnmpSet() {
   packet[packetSize++] = strlen(community);            // Community名の長さ
   memcpy(&packet[packetSize], community, strlen(community));
   packetSize += strlen(community);
-
+  Serial.print("Community=");
+  Serial.print(community);
+  Serial.print("  Length=");
+  Serial.println(strlen(community));
   packet[packetSize++] = 0xA3;                          // SNMP SET Request
   packet[packetSize++] = 0;                            // Length (後で計算)
 
@@ -98,8 +101,9 @@ void sendSnmpSet() {
   udp.beginPacket(snmpServer, snmpPort);
   udp.write(packet, packetSize);
   udp.endPacket();
-
-  Serial.println("SNMP SET request sent!");
+  Serial.print("Packetsize=");
+  Serial.print(packetSize);
+  Serial.println("  SNMP SET request sent!");
 }
 
 
