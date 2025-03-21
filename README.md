@@ -64,6 +64,15 @@ t013に加えて、３ボタンによりメモリクリアやメモリ内容表�
 
 SNMPの試験
 
+## t016
+
+VR(A17)のアナログ入力試験
+
+## t017
+
+EEPROMの試験
+既存M302Kのeepromプログラムが使えるか試験
+
 ## How to make new project by CLI
 
 ```pio project init -b teensy41 -e teensy41 --ide vscode -d [directory name]```
